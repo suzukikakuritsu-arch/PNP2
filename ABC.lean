@@ -269,3 +269,17 @@ theorem suzuki_second_axiom
 #check @finite_PNP           -- sorry=0 ✓
 #check @pnp_all_answers      -- sorry=0 ✓
 #check @suzuki_second_axiom  -- sorry=0 ✓
+
+-- 問題が定義される前から解決している
+theorem solved_before_defined
+    {α : Type*} [DecidableEq α]
+    (S : Finset α) :  -- 有限集合が存在すれば
+    -- どんな chain を作っても有限回で空になる
+    -- = 「問題」が何であれ答えは決まっている
+    ∀ (chain : ℕ → Finset α),
+    chain 0 ⊆ S →
+    (∀ n, chain (n+1) ⊊ chain n) →
+    ∃ N, chain N = ∅ :=
+  fun chain h0 hstrict =>
+    CCP S chain h0 hstrict
+
